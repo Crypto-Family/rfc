@@ -6,9 +6,11 @@ export const SET_INITIALIZED = 'SET_INITIALIZED';
 export const SET_ETH_INJECTED = 'SET_ETH_INJECTED';
 
 // TX HANDLER
-export const SET_TX_LOADING = 'SET_TX_LOADING';
-export const SET_TX_SUCCESS = 'SET_TX_SUCCESS';
-export const SET_TX_ERROR = 'SET_TX_ERROR';
+export const TX_LOADING = 'TX_LOADING';
+export const TX_FAILED = 'TX_FAILED';
+export const TX_SUCCESS = 'TX_SUCCESS';
+export const SET_MINT_DATA = 'SET_MINT_DATA';
+export const SET_AMOUNT = 'SET_AMOUNT';
 
 //WALLET REDUCER
 export const SET_WALLET = 'SET_WALLET';

@@ -1,5 +1,7 @@
 import store from '../redux/store.js';
 
+import { request_connection } from '../redux/actions/walletActions.js';
+
 const getAddressReduced = (address) =>
     `${address.slice(0, 6)}...${address.slice(-4)}`;
 

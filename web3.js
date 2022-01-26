@@ -6,6 +6,7 @@ import {
     set_web3_read_instance,
     set_eth_injected,
     set_initialized,
+    add_contract,
 } from './redux/actions/web3Actions.js';
 import {
     set_wallet,
@@ -43,8 +44,6 @@ const initWeb3 = async () => {
         store.dispatch(set_chain_id(await web3.eth.getChainId()));
     }
 
-    store.dispatch(set_initialized(true));
-
     //listen to eth change events
     ethereum.on('accountsChanged', (accounts) => {
         if (accounts.length > 0) {
@@ -73,13 +72,32 @@ const initWeb3 = async () => {
         // window.location.reload();
         store.dispatch(set_chain_id(await web3.eth.getChainId()));
     });
+
+    const rfcABI = await (await fetch('./abis/erc721.json')).json();
+
+    const rfcContract = new web3.eth.Contract(
+        rfcABI,
+        '0x23DBcF046550539c70A6C3198F25Ba523768929a'
+    );
+
+    store.dispatch(add_contract('RFC', rfcContract));
+
+    store.dispatch(set_initialized(true));
 };
 
 const initStaticWeb3 = (rpcs) => {
-    rpcs.forEach((rpc) => {
+    rpcs.forEach(async (rpc) => {
         const { chainId, url } = rpc;
         const web3 = new Web3(url);
         store.dispatch(set_web3_read_instance(chainId, web3));
+
+        const rfcABI = await (await fetch('./abis/erc721.json')).json();
+        const rfcContract = new web3.eth.Contract(
+            rfcABI,
+            '0x23DBcF046550539c70A6C3198F25Ba523768929a'
+        );
+
+        store.dispatch(add_contract('RFC_READ', rfcContract));
     });
 };
 
