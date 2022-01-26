@@ -58,13 +58,42 @@ export const fetch_mint_data = (typeOfMint) => {
 
         const rfc = new rfc_controller();
 
+        //prettier-ignore
+        const mint_price = (await rfc.prices())[`${typeOfMint}Price`];
+
+        if (typeOfMint === 'public') {
+            const _mintData = {
+                userIsListed: null,
+                total_mints: await rfc.balanceOf(walletReducer.address),
+                userMints: null,
+                mint_price,
+            };
+            dispatch(set_mint_data(typeOfMint + 'Data', _mintData));
+            return;
+        }
+
+        //prettier-ignore
+        const mint_limit = (await rfc.mintLimit())[`${typeOfMint}MintLimitPerUser`];
+
         const mintData = {
-            userIsListed: await rfc.listed(walletReducer.address),
+            //prettier-ignore
+            user_is_listed: (await rfc.listed(walletReducer.address))[`${typeOfMint}Listed`],
             total_mints: await rfc.balanceOf(walletReducer.address),
-            mints_left: await rfc.userMints(walletReducer.address),
+            mints_left:
+                mint_limit -
+                (await rfc.userMints(walletReducer.address))[
+                    `user${
+                        typeOfMint == 'gold'
+                            ? 'Gold'
+                            : typeOfMint === 'white'
+                            ? 'White'
+                            : ''
+                    }Mints`
+                ],
+            mint_price,
         };
 
-        dispatch(set_mint_data(typeOfMint, mintData));
+        dispatch(set_mint_data(typeOfMint + 'Data', mintData));
     };
 };
 

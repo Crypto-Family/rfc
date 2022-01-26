@@ -14,18 +14,19 @@ const generic_tx = {
 };
 
 const generic_mint_data = {
-    userIsListed: false,
+    user_is_listed: false,
     total_mints: 0,
     mints_left: 0,
+    mint_price: 0,
 };
 
 const defaultState = {
     goldMintTx: { ...generic_tx },
-    goldMintData: { ...generic_mint_data },
+    goldData: { ...generic_mint_data },
     whiteMintTx: { ...generic_tx },
-    whiteMintData: { ...generic_mint_data },
-    mintTx: { ...generic_tx },
-    mintData: { ...generic_mint_data },
+    whiteData: { ...generic_mint_data },
+    publicMintTx: { ...generic_tx },
+    publicData: { ...generic_mint_data },
     amount: 0,
 };
 
@@ -61,7 +62,7 @@ const reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 [action.typeOfMint]: {
-                    ...state[action.mintData],
+                    ...action.mintData,
                 },
             };
 

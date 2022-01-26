@@ -637,13 +637,24 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
 }
 
-#mint-now {
+#mint_button_LL {
     font-size: 22px;
     padding: 10px 20px;
     border: none;
     outline: none;
     background-color: var(--primary-color);
     color: var(--bg-color);
+}
+
+#mint_button_LL:disabled {
+    background-color: var(--dark-gold);
+    color: rgb(17, 13, 5);
+}
+
+#decrease_button_LL:disabled,
+#increase_button_LL:disabled {
+    background-color: var(--dark-gold);
+    color: rgb(17, 13, 5);
 }
 
 .image-slider-container {

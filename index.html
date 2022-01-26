@@ -38,9 +38,10 @@
     <script src="./redux/reducers/mintReducer.js" type="module"></script>
     <script src="./redux/reducers/walletReducer.js" type="module"></script>
     <script src="./redux/reducers/web3Reducer.js" type="module"></script>
-    <script src="./redux/store.js" type="module"></script>
+    <script src="./redux/store.js" type="module"></script>    
     <script src="web3.js" type="module"></script>
 
+    <script src="./components/mint.section.js" type="module"></script>
     <script src="./components/connect-button.js" type="module"></script>
 
     
@@ -124,15 +125,15 @@
                         <span><i class='bx bx-arrow-back'></i></span></a> 
                     <div class="mint-stepper">
                         <div class="stepper-wrapper">
-                            <button id="deduct-mint" class="stepper-btns" disabled>
+                            <button id="decrease_button_LL" class="stepper-btns">
                                 <i class='bx bx-minus'></i>
                             </button>
-                            <input type="number" name="" id="mint-number" value="1" min="1" readonly>
-                            <button id="add-mint" class="stepper-btns" disabled>
+                            <input type="number" name="" id="mint_amount_LL" value="1" min="1" readonly>
+                            <button id="increase_button_LL" class="stepper-btns">
                                 <i class='bx bx-plus'></i>
                             </button>
                         </div>
-                        <button id="mint-now">
+                        <button id="mint_button_LL" disabled>
                             mint now
                         </button>
                     </div>

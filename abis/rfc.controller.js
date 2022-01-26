@@ -1,6 +1,6 @@
 import store from '../redux/store.js';
 
-const surreal_controller = () => {
+function rfc_controller() {
     const contracts = store.getState().web3Reducer.contracts;
 
     const rfc_contract = contracts.RFC;
@@ -35,6 +35,6 @@ const surreal_controller = () => {
             return rfc_contract.methods.mint(amount);
         },
     };
-};
+}
 
-export default surreal_controller;
+export default rfc_controller;
