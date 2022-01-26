@@ -17,10 +17,10 @@ initStaticWeb3(rpcs);
 let fetched = false;
 
 store.subscribe(() => {
-    const { web3Reducer, mintReducer } = store.getState();
+    const { web3Reducer, walletReducer, mintReducer } = store.getState();
 
     if (!fetched) {
-        if (!web3Reducer.initialized) return;
+        if (!web3Reducer.initialized || !walletReducer.isLoggedIn) return;
         store.dispatch(fetch_mint_data(TYPE_OF_MINT));
         fetched = true;
     }

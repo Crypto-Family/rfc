@@ -22,6 +22,9 @@ function rfc_controller() {
         mintLimit: async () => {
             return await rfc_contract_read.methods.mintLimit().call();
         },
+        isMintingOpen: async () => {
+            return await rfc_contract_read.methods.minting().call();
+        },
 
         /* *~~*~~*~~*~~*~~* TX *~~*~~*~~*~~*~~*  */
 
@@ -31,7 +34,7 @@ function rfc_controller() {
         whiteMint: (amount) => {
             return rfc_contract.methods.whiteMint(amount);
         },
-        mint: (amount) => {
+        publicMint: (amount) => {
             return rfc_contract.methods.mint(amount);
         },
     };

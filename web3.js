@@ -63,10 +63,10 @@ const initWeb3 = async () => {
     //     // console.log('cnx');
     // });
 
-    // ethereum.on('disconnect', error => {
-    //     // store.dispatch( set_address('') );
-    //     // console.log(error);
-    // });
+    ethereum.on('disconnect', (error) => {
+        // store.dispatch(set_address(''));
+        console.log(error);
+    });
 
     ethereum.on('chainChanged', async () => {
         // window.location.reload();
@@ -77,7 +77,7 @@ const initWeb3 = async () => {
 
     const rfcContract = new web3.eth.Contract(
         rfcABI,
-        '0x23DBcF046550539c70A6C3198F25Ba523768929a'
+        '0x86Bf3D05f21372EAbE44F3710637Cc4787811c7E'
     );
 
     store.dispatch(add_contract('RFC', rfcContract));
@@ -94,7 +94,7 @@ const initStaticWeb3 = (rpcs) => {
         const rfcABI = await (await fetch('./abis/erc721.json')).json();
         const rfcContract = new web3.eth.Contract(
             rfcABI,
-            '0x23DBcF046550539c70A6C3198F25Ba523768929a'
+            '0x86Bf3D05f21372EAbE44F3710637Cc4787811c7E'
         );
 
         store.dispatch(add_contract('RFC_READ', rfcContract));

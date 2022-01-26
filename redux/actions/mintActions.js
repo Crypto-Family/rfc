@@ -31,23 +31,31 @@ export const mint_tx = (txArguments) => {
     return async (dispatch, getState) => {
         const { typeOfMint, amount } = txArguments;
 
-        dispatch(tx_loading(typeOfMint));
+        dispatch(tx_loading(`${typeOfMint}MintTx`));
 
-        const { web3Reducer, walletReducer } = getState();
+        const { mintReducer, walletReducer } = getState();
+
+        const mintData = mintReducer[`${typeOfMint}Data`];
+
+        if (typeOfMint !== 'public' && !mintData.user_is_listed) return;
 
         const rfc = new rfc_controller();
-
-        const tx = rfc[typeOfMint](amount);
+        const tx = rfc[`${typeOfMint}Mint`](amount);
 
         try {
             const txData = await tx.send({
                 from: walletReducer.address,
-                value: 0,
+                value: BigNumber(amount)
+                    .times(BigNumber(mintData.mint_price))
+                    .toFixed(0)
+                    .toString(),
             });
 
-            dispatch(tx_success(typeOfMint, txData));
+            dispatch(tx_success(`${typeOfMint}MintTx`, txData));
         } catch (error) {
-            dispatch(tx_failed(typeOfMint, error));
+            dispatch(tx_failed(`${typeOfMint}MintTx`, error));
+        } finally {
+            dispatch(fetch_mint_data(typeOfMint));
         }
     };
 };

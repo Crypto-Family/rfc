@@ -10,6 +10,12 @@ import {
 import { TYPE_OF_MINT } from '../main.js';
 
 $(document).ready(() => {
+    let $mint_section = $('#mint_section_LL');
+    $mint_section.append(
+        `<div style="color: white"> ${TYPE_OF_MINT} Mint </div>`
+    );
+    $mint_section.hide();
+
     let $increse_button = $('#increase_button_LL');
     let $mint_amount = $('#mint_amount_LL');
     let $decrease_button = $('#decrease_button_LL');
@@ -29,13 +35,29 @@ $(document).ready(() => {
         if (amount > 0) store.dispatch(decrease_amount());
     });
 
-    store.subscribe(() => {
+    $mint_button.click(() => {
         const { mintReducer } = store.getState();
+        const { amount } = mintReducer;
+
+        if (amount > 0) {
+            store.dispatch(
+                mint_tx({
+                    amount,
+                    typeOfMint: TYPE_OF_MINT,
+                })
+            );
+        }
+    });
+
+    store.subscribe(() => {
+        const { mintReducer, walletReducer } = store.getState();
         const mintData = mintReducer[`${TYPE_OF_MINT}Data`];
         const { amount } = mintReducer;
 
+        //amount
         $mint_amount.val(amount);
 
+        //buttons
         if (amount == 0) {
             $mint_button.prop('disabled', true);
             $decrease_button.prop('disabled', true);
@@ -45,6 +67,29 @@ $(document).ready(() => {
             $increse_button.prop('disabled', false);
             $mint_button.prop('disabled', false);
             $decrease_button.prop('disabled', false);
+        }
+
+        //mint section
+        if (walletReducer.isLoggedIn) {
+            if (TYPE_OF_MINT === 'public') $mint_section.show();
+            else {
+                if (mintData.user_is_listed) $mint_section.show();
+                else $mint_section.hide();
+            }
+        } else if (!walletReducer.isLoggedIn) {
+            $mint_section.hide();
+        }
+
+        //mint button
+        if (mintReducer[`${TYPE_OF_MINT}MintTx`].loading) {
+            $mint_button.prop('disabled', true);
+            $mint_button.text('Minting...');
+        } else if (mintReducer[`${TYPE_OF_MINT}MintTx`].error) {
+            $mint_button.prop('disabled', false);
+            $mint_button.text('Mint');
+        } else if (mintReducer[`${TYPE_OF_MINT}MintTx`].success) {
+            $mint_button.prop('disabled', false);
+            $mint_button.text('Mint');
         }
     });
 });
