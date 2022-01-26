@@ -1,7 +1,7 @@
 :root {
     --bg-color: #050505;
-    --primary-color: #ECB941;
-    --secondary-color: #FAFAFA;
+    --primary-color: #ecb941;
+    --secondary-color: #fafafa;
     --dark-gold: #b99132;
 }
 
@@ -165,8 +165,8 @@ header .connect-wallet {
     border: 1px solid var(--primary-color);
     color: var(--secondary-color);
     margin-right: 2em;
-    opacity: 0.2;
-    cursor: not-allowed;
+    opacity: 1;
+    cursor: pointer;
 }
 
 nav .connect-wallet {
@@ -373,7 +373,6 @@ nav .connect-wallet {
     -moz-transition-timing-function: cubic-bezier(0.595, 0.03, 0, 0.88);
     -o-transition-timing-function: cubic-bezier(0.595, 0.03, 0, 0.88);
     transition-timing-function: cubic-bezier(0.595, 0.03, 0, 0.88);
-
 }
 
 .navigation-menu .green-layer {
@@ -393,7 +392,6 @@ nav .connect-wallet {
     -moz-transition-timing-function: cubic-bezier(0.595, 0.03, 0, 0.88);
     -o-transition-timing-function: cubic-bezier(0.595, 0.03, 0, 0.88);
     transition-timing-function: cubic-bezier(0.595, 0.03, 0, 0.88);
-
 }
 
 .navigation-menu .inner {
@@ -439,7 +437,7 @@ nav .connect-wallet {
 }
 
 .navigation-menu .inner ul li a:before {
-    content: "";
+    content: '';
     width: 100%;
     height: 10px;
     position: absolute;
@@ -549,8 +547,8 @@ nav .connect-wallet {
 
 .cta-btn {
     background-color: transparent;
-    animation: flicker .5s ease-in-out infinite alternate;
-    -webkit-animation: flicker .5s ease-in-out infinite alternate;
+    animation: flicker 0.5s ease-in-out infinite alternate;
+    -webkit-animation: flicker 0.5s ease-in-out infinite alternate;
     text-decoration: none;
 }
 
@@ -567,20 +565,18 @@ nav .connect-wallet {
     -moz-transform: rotate(180deg);
     -ms-transform: rotate(180deg);
     -o-transform: rotate(180deg);
-    animation: movement-right .7s ease-in-out infinite alternate;
-    -webkit-animation: movement-right .7s ease-in-out infinite alternate;
+    animation: movement-right 0.7s ease-in-out infinite alternate;
+    -webkit-animation: movement-right 0.7s ease-in-out infinite alternate;
 }
 
 @keyframes flicker {
     from {
-        text-shadow:
-            0 0 5px var(--primary-color), 0 0 10px var(--primary-color),
+        text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color),
             0 0 20px var(--primary-color), 0 0 40px var(--primary-color);
     }
 
     to {
-        text-shadow:
-            0 0 5px var(--dark-gold), 0 0 10px var(--dark-gold),
+        text-shadow: 0 0 5px var(--dark-gold), 0 0 10px var(--dark-gold),
             0 0 20px var(--dark-gold), 0 0 40px var(--dark-gold);
     }
 }
@@ -696,7 +692,7 @@ input::-webkit-inner-spin-button {
     overflow: hidden;
 }
 
-.box>img {
+.box > img {
     visibility: hidden;
     width: 250px;
     height: 250px;
@@ -767,7 +763,11 @@ input::-webkit-inner-spin-button {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: linear-gradient(25deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.4));
+    background: linear-gradient(
+        25deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.4)
+    );
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border-radius: 10px;
@@ -991,11 +991,11 @@ input::-webkit-inner-spin-button {
     width: 25px;
     height: 25px;
     font-size: 22px;
-    transition: .3s;
-    -webkit-transition: .3s;
-    -moz-transition: .3s;
-    -ms-transition: .3s;
-    -o-transition: .3s;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
 }
 
 .member-details a:hover {
@@ -1133,11 +1133,11 @@ footer {
     width: max-content;
     border-bottom: 2px solid var(--primary-color);
     cursor: pointer;
-    transition: .3s;
-    -webkit-transition: .3s;
-    -moz-transition: .3s;
-    -ms-transition: .3s;
-    -o-transition: .3s;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
 }
 
 #tc-btn:hover {
@@ -1195,7 +1195,11 @@ footer {
     bottom: 15px;
     width: calc(100% - 20px);
     height: 32px;
-    background-image: linear-gradient(360deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6));
+    background-image: linear-gradient(
+        360deg,
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0.6)
+    );
 }
 
 .tc-container {
@@ -1257,7 +1261,6 @@ footer .social-links .metalab {
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-
     #logo__wrapper img {
         height: 80px;
         margin: 0;
@@ -1468,12 +1471,10 @@ footer .social-links .metalab {
     .comming-soon {
         height: calc(100vh - 324.19px);
     }
-
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-
     #logo__wrapper img {
         height: 100px;
         margin: 0;
@@ -1514,7 +1515,7 @@ footer .social-links .metalab {
         -moz-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         -o-transform: translateY(-50%);
-}
+    }
 
     .rfc-image img {
         width: 100%;
@@ -1577,12 +1578,10 @@ footer .social-links .metalab {
     .comming-soon {
         height: calc(100vh - 324.19px);
     }
-
 }
 
 /* X-Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-
     .home-title h1 {
         font-size: 120px;
     }
@@ -1597,8 +1596,8 @@ footer .social-links .metalab {
         left: 10%;
         overflow: hidden;
     }
-    
-    .box>img {
+
+    .box > img {
         visibility: hidden;
         width: 350px;
         height: 350px;
@@ -1648,12 +1647,10 @@ footer .social-links .metalab {
     .comming-soon {
         height: calc(100vh - 400px);
     }
-
 }
 
 /* XX-Large devices (larger desktops, 1400px and up) */
 @media (min-width: 1400px) {
-
     section {
         padding: 70px 0px;
     }
@@ -1708,5 +1705,4 @@ footer .social-links .metalab {
         height: calc(100% - 175px);
         top: 160px;
     }
-
 }

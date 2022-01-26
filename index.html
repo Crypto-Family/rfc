@@ -20,6 +20,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
     <script src="index.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux-thunk/2.4.1/redux-thunk.min.js"
+     integrity="sha512-doV1QcZI2hB7OuETAuE3ii63YPeDeaWLF6sPMUN9EblvW8TIeDoAlUPFtoRy2folzV2xkAAy4BdqWBbF/FMBsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/5.0.0-alpha.0/redux.min.js"
+      integrity="sha512-6WJ7yVV5HDZwZ0RT5CM3FCTgTt5qC5BlfQ9bG43y0BowT5a3GXQqDYaoZgCk+i9vuB1Yj6KdBPQAU8Ra7tV32w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.0/web3.min.js" 
+    integrity="sha512-C63V0mFzwl8KV2fRz0QJNKX0d9877urOLSUq5WUq8nUOhDl69hKdGr9mAvl57k47GNjqEMAtiufsvDnk7xs8+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="mint.js" type="module"></script>
+    <script src="main.js" type="module"></script>
+    <script src="connection.js" type="module"></script>
+
+    <script src="./redux/constants.js" type="module"></script>
+    <script src="./redux/actions/walletActions.js" type="module"></script>
+    <script src="./redux/actions/web3Actions.js" type="module"></script>    
+    <script src="./redux/reducers/walletReducer.js" type="module"></script>
+    <script src="./redux/reducers/web3Reducer.js" type="module"></script>
+    <script src="./redux/store.js" type="module"></script>
+    <script src="web3.js" type="module"></script>
+
+    <script src="./binds/connect-button.js" type="module"></script>
+
+    
     <title>RFC</title>
 </head>
 
@@ -78,7 +101,7 @@
                 <b class="beta">Beta Version</b>
             </div>
             <div class="d-flex align-items-center">
-                <button class="connect-wallet in-header">connect wallet</button>
+                <button id="connect_button_LL" class="connect-wallet in-header">connect wallet</button>
                 <div class="sandwich-nav">
                     <span>MENU</span>
                     <div class="sandwich-btn circle" id="sandwich-btn" data-dist="7"> <span></span> <span></span> </div>
