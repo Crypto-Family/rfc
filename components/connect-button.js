@@ -8,8 +8,6 @@ const getAddressReduced = (address) =>
 $(document).ready(() => {
     const $connectButton = $('.connect_wallet_LL');
 
-    console.log('connect button', $connectButton);
-
     $connectButton.each(function () {
         $(this)
             .text('Connect wallet')

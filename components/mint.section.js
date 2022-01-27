@@ -7,19 +7,20 @@ import {
     decrease_amount,
 } from '../redux/actions/mintActions.js';
 
-import { TYPE_OF_MINT } from '../main.js';
+import { TYPE_OF_MINT, OPERATING_CHAIND_ID } from '../main.js';
 
 $(document).ready(() => {
-    let $mint_section = $('#mint_section_LL');
+    const $mint_section = $('#mint_section_LL');
     $mint_section.append(
         `<div style="color: white"> ${TYPE_OF_MINT} Mint </div>`
     );
-    $mint_section.hide();
+    $mint_section.show();
 
-    let $increse_button = $('#increase_button_LL');
-    let $mint_amount = $('#mint_amount_LL');
-    let $decrease_button = $('#decrease_button_LL');
-    let $mint_button = $('#mint_button_LL');
+    const $increse_button = $('#increase_button_LL');
+    const $mint_amount = $('#mint_amount_LL');
+    const $decrease_button = $('#decrease_button_LL');
+    const $mint_button = $('#mint_button_LL');
+    const $mainnet_title = $('#mainnet_title_LL');
 
     $increse_button.click(() => {
         const { mintReducer } = store.getState();
@@ -71,10 +72,16 @@ $(document).ready(() => {
 
         //mint section
         if (walletReducer.isLoggedIn) {
-            if (TYPE_OF_MINT === 'public') $mint_section.show();
-            else {
-                if (mintData.user_is_listed) $mint_section.show();
-                else $mint_section.hide();
+            if (walletReducer.chainId == OPERATING_CHAIND_ID) {
+                $mainnet_title.hide();
+                if (TYPE_OF_MINT === 'public') $mint_section.show();
+                else {
+                    if (mintData.user_is_listed) $mint_section.show();
+                    else $mint_section.hide();
+                }
+            } else {
+                $mint_section.hide();
+                $mainnet_title.show();
             }
         } else if (!walletReducer.isLoggedIn) {
             $mint_section.hide();
