@@ -174,8 +174,8 @@ nav .connect-wallet {
     background-color: transparent;
     border: 1px solid var(--primary-color);
     color: var(--secondary-color);
-    opacity: 0.2;
-    cursor: not-allowed;
+    opacity: 1;
+    cursor: pointer;
 }
 
 .in-header {
@@ -649,12 +649,14 @@ input::-webkit-inner-spin-button {
 #mint_button_LL:disabled {
     background-color: var(--dark-gold);
     color: rgb(17, 13, 5);
+    cursor: not-allowed;
 }
 
 #decrease_button_LL:disabled,
 #increase_button_LL:disabled {
     background-color: var(--dark-gold);
     color: rgb(17, 13, 5);
+    cursor: not-allowed;
 }
 
 .image-slider-container {
