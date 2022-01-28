@@ -77,7 +77,7 @@ const initWeb3 = async () => {
 
     const rfcContract = new web3.eth.Contract(
         rfcABI,
-        '0x86Bf3D05f21372EAbE44F3710637Cc4787811c7E'
+        '0x30845f63D8eF1E572B696C7022Ffb7172e0ED862'
     );
 
     store.dispatch(add_contract('RFC', rfcContract));
@@ -94,7 +94,7 @@ const initStaticWeb3 = (rpcs) => {
         const rfcABI = await (await fetch('./abis/erc721.json')).json();
         const rfcContract = new web3.eth.Contract(
             rfcABI,
-            '0x86Bf3D05f21372EAbE44F3710637Cc4787811c7E'
+            '0x30845f63D8eF1E572B696C7022Ffb7172e0ED862'
         );
 
         store.dispatch(add_contract('RFC_READ', rfcContract));

@@ -12,7 +12,11 @@ import { TYPE_OF_MINT, OPERATING_CHAIND_ID } from '../main.js';
 $(document).ready(() => {
     const $mint_section = $('#mint_section_LL');
     $mint_section.append(
-        `<div style="color: white"> ${TYPE_OF_MINT} Mint </div>`
+        `<div style="color: white"> ${TYPE_OF_MINT} Mint ${
+            TYPE_OF_MINT == 'gold' || TYPE_OF_MINT == 'white'
+                ? ' | max mints: 10'
+                : ''
+        } </div>`
     );
     $mint_section.show();
 
@@ -20,7 +24,10 @@ $(document).ready(() => {
     const $mint_amount = $('#mint_amount_LL');
     const $decrease_button = $('#decrease_button_LL');
     const $mint_button = $('#mint_button_LL');
+
     const $mainnet_title = $('#mainnet_title_LL');
+    const $not_listed_title = $('#not_listed_title_LL');
+    const $max_mint_title = $('#max_mint_title_LL');
 
     $increse_button.click(() => {
         const { mintReducer } = store.getState();
@@ -64,6 +71,7 @@ $(document).ready(() => {
             $decrease_button.prop('disabled', true);
         } else if (amount == mintData.mints_left) {
             $increse_button.prop('disabled', true);
+            $mint_button.prop('disabled', false);
         } else {
             $increse_button.prop('disabled', false);
             $mint_button.prop('disabled', false);
@@ -76,8 +84,20 @@ $(document).ready(() => {
                 $mainnet_title.hide();
                 if (TYPE_OF_MINT === 'public') $mint_section.show();
                 else {
-                    if (mintData.user_is_listed) $mint_section.show();
-                    else $mint_section.hide();
+                    if (mintData.user_is_listed) {
+                        $not_listed_title.hide();
+                        $mint_section.show();
+                        console.log(mintData.mints_left);
+                        if (mintData.mints_left == 0) {
+                            $mint_section.hide();
+                            $max_mint_title.show();
+                            $mint_button.prop('disabled', true);
+                        }
+                    } else {
+                        $mint_section.hide();
+                        $not_listed_title.show();
+                        return;
+                    }
                 }
             } else {
                 $mint_section.hide();
@@ -85,6 +105,7 @@ $(document).ready(() => {
             }
         } else if (!walletReducer.isLoggedIn) {
             $mint_section.hide();
+            return;
         }
 
         //mint button
@@ -98,5 +119,16 @@ $(document).ready(() => {
             $mint_button.prop('disabled', false);
             $mint_button.text('Mint');
         }
+
+        // console.log(store.getState().mintReducer);
     });
+});
+
+window.ethereum.on('accountsChanged', (accounts) => {
+    if (accounts.length > 0) {
+        //dispatch fetch_mint_data after 3 seconds
+        setTimeout(() => {
+            store.dispatch(fetch_mint_data(TYPE_OF_MINT));
+        }, 100);
+    }
 });

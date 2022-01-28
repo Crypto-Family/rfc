@@ -56,7 +56,7 @@ export const mint_tx = (txArguments) => {
             dispatch(tx_failed(`${typeOfMint}MintTx`, error));
         } finally {
             dispatch(fetch_mint_data(typeOfMint));
-            dispatch(set_amount(0));
+            dispatch(set_amount(1));
         }
     };
 };

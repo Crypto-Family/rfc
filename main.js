@@ -2,7 +2,13 @@ import store from './redux/store.js';
 import { fetch_mint_data } from './redux/actions/mintActions.js';
 import { initWeb3, initStaticWeb3 } from './web3.js';
 
-export const TYPE_OF_MINT = 'white';
+const types = {
+    GOLD: 'gold',
+    WHITE: 'white',
+    PUBLIC: 'public',
+};
+
+export const TYPE_OF_MINT = types.PUBLIC;
 export const OPERATING_CHAIND_ID = '3';
 
 const rpcs = [
