@@ -28,6 +28,8 @@ $(document).ready(() => {
     const $mainnet_title = $('#mainnet_title_LL');
     const $not_listed_title = $('#not_listed_title_LL');
     const $max_mint_title = $('#max_mint_title_LL');
+    const text = $not_listed_title.text();
+    $not_listed_title.text(text.replace('gold/white', TYPE_OF_MINT));
 
     $increse_button.click(() => {
         const { mintReducer } = store.getState();
@@ -69,9 +71,11 @@ $(document).ready(() => {
         if (amount == 0) {
             $mint_button.prop('disabled', true);
             $decrease_button.prop('disabled', true);
+            $increse_button.prop('disabled', false);
         } else if (amount == mintData.mints_left) {
             $increse_button.prop('disabled', true);
             $mint_button.prop('disabled', false);
+            $decrease_button.prop('disabled', false);
         } else {
             $increse_button.prop('disabled', false);
             $mint_button.prop('disabled', false);
@@ -82,20 +86,24 @@ $(document).ready(() => {
         if (walletReducer.isLoggedIn) {
             if (walletReducer.chainId == OPERATING_CHAIND_ID) {
                 $mainnet_title.hide();
+
                 if (TYPE_OF_MINT === 'public') $mint_section.show();
                 else {
                     if (mintData.user_is_listed) {
                         $not_listed_title.hide();
                         $mint_section.show();
-                        console.log(mintData.mints_left);
                         if (mintData.mints_left == 0) {
                             $mint_section.hide();
                             $max_mint_title.show();
                             $mint_button.prop('disabled', true);
+                        } else {
+                            $mint_button.prop('disabled', false);
+                            $max_mint_title.hide();
                         }
                     } else {
                         $mint_section.hide();
                         $not_listed_title.show();
+                        $max_mint_title.hide();
                         return;
                     }
                 }
@@ -105,6 +113,11 @@ $(document).ready(() => {
             }
         } else if (!walletReducer.isLoggedIn) {
             $mint_section.hide();
+
+            $not_listed_title.hide();
+            $mainnet_title.hide();
+            $max_mint_title.hide();
+
             return;
         }
 

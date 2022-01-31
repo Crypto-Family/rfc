@@ -27,7 +27,7 @@ const defaultState = {
     whiteData: { ...generic_mint_data },
     publicMintTx: { ...generic_tx },
     publicData: { ...generic_mint_data },
-    amount: 0,
+    amount: 1,
 };
 
 const reducer = (state = defaultState, action) => {
