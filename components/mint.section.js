@@ -18,7 +18,6 @@ $(document).ready(() => {
                 : ''
         } </div>`
     );
-    $mint_section.show();
 
     const $increse_button = $('#increase_button_LL');
     const $mint_amount = $('#mint_amount_LL');
