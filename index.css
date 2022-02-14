@@ -647,7 +647,8 @@ input::-webkit-inner-spin-button {
 }
 
 
-.stepper-btns:disabled {
+.stepper-btns:disabled,
+#mint_button_LL:disabled {
     background-color: var(--dark-gold);
     color: rgb(17, 13, 5);
     cursor: not-allowed;

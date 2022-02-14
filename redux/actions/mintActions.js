@@ -39,14 +39,19 @@ export const mint_tx = (txArguments) => {
 
         const { mintReducer, walletReducer } = getState();
 
-        const mintData = mintReducer[`${typeOfMint}Data`];
+        const mintData = mintReducer[`${typeOfMint}Data`];        
 
-        if (typeOfMint !== 'public' && !mintData.user_is_listed) return;
+        if (typeOfMint != 'public' && !mintData.user_is_listed) return;
+
+        console.log(txArguments);
+        
 
         const rfc = new rfc_controller();
         const tx = rfc[`${typeOfMint}Mint`](amount);
+        
 
         try {
+            console.log(mintData.mint_price);
             const txData = await tx.send({
                 from: walletReducer.address,
                 value: BigNumber(amount)
@@ -54,9 +59,11 @@ export const mint_tx = (txArguments) => {
                     .toFixed(0)
                     .toString(),
             });
+            
 
             dispatch(tx_success(`${typeOfMint}MintTx`, txData));
         } catch (error) {
+            console.log(error);
             dispatch(tx_failed(`${typeOfMint}MintTx`, error));
         } finally {
             dispatch(fetch_mint_data(typeOfMint));
@@ -91,8 +98,9 @@ export const fetch_wl_mint_data = (typeOfMint) => {
         const mintData = {            
             is_open,
             mint_price,
+            mint_limit,
             user_is_listed: (await rfc.listed(walletReducer.address))[`${typeOfMint}Listed`],
-            total_mints: await rfc.balanceOf(walletReducer.address),
+            total_mints: user_mints,
             mints_left: mint_limit - user_mints,
             
         };
@@ -108,15 +116,18 @@ const fetch_public_mint_data = () => {
         const rfc = new rfc_controller();        
 
         const is_open = (await rfc.minting())['publicMint'];
-        const mint_price = (await rfc.prices())['publicMint'];
+        const mint_price = (await rfc.prices())['publicPrice'];
         const total_supply = await rfc.totalSupply();
+        const total_mints = await rfc.balanceOf(walletReducer.address);
         const mint_limit = 5050;
         const mints_left = mint_limit - total_supply;
 
-        const mintData = {            
+        const mintData = {   
+            mint_limit: 'no limit / until selling out',            
             is_open,
             mint_price,            
-            mints_left
+            mints_left,
+            total_mints
         };
 
         dispatch(set_mint_data('publicData', mintData));
