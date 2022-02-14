@@ -2,6 +2,7 @@ import {
     TX_LOADING,
     TX_FAILED,
     TX_SUCCESS,
+    SET_LOADING_MINT_DATA,
     SET_MINT_DATA,
     SET_AMOUNT,
 } from '../constants.js';
@@ -21,6 +22,11 @@ const tx_failed = (txName, errorData) => ({
 });
 const tx_success = (txName, data) => ({ type: TX_SUCCESS, txName, data });
 
+const set_loading_mint_data = (typeOfMint) => ({
+    type: SET_LOADING_MINT_DATA,
+    typeOfMint,
+});
+
 const set_mint_data = (typeOfMint, mintData) => ({
     type: SET_MINT_DATA,
     typeOfMint,
@@ -39,7 +45,7 @@ export const mint_tx = (txArguments) => {
 
         const { mintReducer, walletReducer } = getState();
 
-        const mintData = mintReducer[`${typeOfMint}Data`];        
+        const mintData = mintReducer[`${typeOfMint}Data`].data;        
 
         if (typeOfMint != 'public' && !mintData.user_is_listed) return;
 
@@ -73,7 +79,10 @@ export const mint_tx = (txArguments) => {
 };
 
 export const fetch_mint_data = (typeOfMint) => {
-    return async (dispatch, getState) => {
+    return async (dispatch) => {
+
+        dispatch(set_loading_mint_data(typeOfMint));
+
         if(typeOfMint == 'public'){
             dispatch(fetch_public_mint_data(typeOfMint));
         }

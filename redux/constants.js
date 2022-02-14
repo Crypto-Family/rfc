@@ -9,6 +9,7 @@ export const SET_ETH_INJECTED = 'SET_ETH_INJECTED';
 export const TX_LOADING = 'TX_LOADING';
 export const TX_FAILED = 'TX_FAILED';
 export const TX_SUCCESS = 'TX_SUCCESS';
+export const SET_LOADING_MINT_DATA = 'SET_LOADING_MINT_DATA';
 export const SET_MINT_DATA = 'SET_MINT_DATA';
 export const SET_AMOUNT = 'SET_AMOUNT';
 

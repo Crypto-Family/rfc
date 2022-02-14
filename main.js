@@ -19,7 +19,7 @@ const types = {
     PUBLIC: 'public',
 };
 
-export const TYPE_OF_MINT = types.WHITE;
+export const TYPE_OF_MINT = types.GOLD;
 
 const rpcs = [
     {
@@ -60,12 +60,26 @@ const NetworkWrapper = (props) => {
     );
 };
 
+/* *~~*~~*~~*~~*~~* FETCHING DATA WRAPPER *~~*~~*~~*~~*~~* */
+
+const FetchingDataWrapper = (props) => {
+    const { mintReducer } = useSelector((state) => state);
+    return(
+        <Fragment>
+            {mintReducer[`${TYPE_OF_MINT}Data`].loading ? 
+                <h3 style={{color: 'white'}}>Loading...</h3>
+                : props.children
+            }
+        </Fragment>
+    );
+};
+
 /* *~~*~~*~~*~~*~~* GL/WL WRAPPER *~~*~~*~~*~~*~~* */
 const ListedkWrapper = (props) => {
     const { mintReducer } = useSelector(state => state);
     return (
         <Fragment>
-            {mintReducer[`${TYPE_OF_MINT}Data`].user_is_listed || TYPE_OF_MINT == types.PUBLIC ? (
+            {mintReducer[`${TYPE_OF_MINT}Data`].data.user_is_listed || TYPE_OF_MINT == types.PUBLIC ? (
                 props.children
             ) : (
                 <div>{props.info}</div>
@@ -86,18 +100,20 @@ const HomeSection = () => {
 
     const dispatch = useDispatch();
 
+  
+
     useEffect(
         () => {    
-            if (!web3Reducer.initialized || !walletReducer.isLoggedIn) return;
+            if (!web3Reducer.initialized || !walletReducer.isLoggedIn || walletReducer.chainId != CHAIN_ID) return;
                 dispatch(fetch_mint_data(TYPE_OF_MINT));
-        }, [web3Reducer.initialized, walletReducer.isLoggedIn, walletReducer.address]
+        }, [web3Reducer.initialized, walletReducer.isLoggedIn, walletReducer.address, walletReducer.chainId]
     );
 
     const onIncreaseClick = () => {
 
         if(
-            mintReducer[`${TYPE_OF_MINT}Data`].mints_left == mintReducer.amount ||            
-            mintReducer[`${TYPE_OF_MINT}Data`].mints_left == 0
+            mintReducer[`${TYPE_OF_MINT}Data`].data.mints_left == mintReducer.amount ||            
+            mintReducer[`${TYPE_OF_MINT}Data`].data.mints_left == 0
         ) return;
 
         dispatch(increase_amount());
@@ -152,74 +168,75 @@ const HomeSection = () => {
                     chainIds={[CHAIN_ID]}
                     info={<h3>Please change to eth mainnet</h3>}
                 >
-                   <ListedkWrapper
-                        info={<h3>Sorry, but you are not part of the {TYPE_OF_MINT} list. 🙁</h3>}
-                        >
-                            <h6>
-                                {TYPE_OF_MINT} MINT
-                            </h6>
-                            <h6>
-                                max mints per wallet: {mintReducer[`${TYPE_OF_MINT}Data`].mint_limit}
-                            </h6>
-                            <h6>
-                                 wallet mints: {mintReducer[`${TYPE_OF_MINT}Data`].total_mints}
-                            </h6>
-                            <h6>
-                                mints left: {mintReducer[`${TYPE_OF_MINT}Data`].mints_left}
-                            </h6>
+                    <FetchingDataWrapper>
+                        <ListedkWrapper
+                            info={<h3>Sorry, but you are not part of the {TYPE_OF_MINT} list. 🙁</h3>}
+                            >
+                                <h6>
+                                    {TYPE_OF_MINT} MINT
+                                </h6>
+                                <h6>
+                                    max mints per wallet: {mintReducer[`${TYPE_OF_MINT}Data`].data.mint_limit}
+                                </h6>
+                                <h6>
+                                    wallet mints: {mintReducer[`${TYPE_OF_MINT}Data`].data.total_mints}
+                                </h6>
+                                <h6>
+                                    mints left: {mintReducer[`${TYPE_OF_MINT}Data`].data.mints_left}
+                                </h6>
 
 
-                            <div id="mint_section" class="mint-stepper">
-                                <div class="stepper-wrapper">
-                                    <button
-                                        id="decrease_button"
-                                        class="stepper-btns"
-                                        onClick={onDecreaseClick}
-                                        disabled={mintReducer.amount == '1'}
-                                    >
-                                        <i class="bx bx-minus"></i>
+                                <div id="mint_section" class="mint-stepper">
+                                    <div class="stepper-wrapper">
+                                        <button
+                                            id="decrease_button"
+                                            class="stepper-btns"
+                                            onClick={onDecreaseClick}
+                                            disabled={mintReducer.amount == '1'}
+                                        >
+                                            <i class="bx bx-minus"></i>
+                                        </button>
+                                        <input
+                                            type="number"
+                                            name=""
+                                            id="mint_amount_LL"
+                                            value={mintReducer.amount}
+                                            min="1"
+                                            readonly
+                                        />
+                                        <button
+                                            id="increase_button"
+                                            class="stepper-btns"
+                                            onClick={onIncreaseClick}
+                                            disabled={
+                                                mintReducer.amount == mintReducer[`${TYPE_OF_MINT}Data`].data.mints_left || 
+                                                mintReducer[`${TYPE_OF_MINT}Data`].data.mints_left == 0
+                                            }
+                                        >
+                                            <i class="bx bx-plus"></i>
+                                        </button>
+                                    </div>
+                                    <button 
+                                        id="mint_button_LL"
+                                        onClick={onMintClick}
+                                        disabled={mintReducer[`${TYPE_OF_MINT}Data`].data.mints_left == 0 || mintReducer[`${TYPE_OF_MINT}MintTx`].loading}>
+                                        {
+                                            mintReducer[`${TYPE_OF_MINT}MintTx`].loading ? 'Minting...' : 'Mint now'
+                                        }                                    
                                     </button>
-                                    <input
-                                        type="number"
-                                        name=""
-                                        id="mint_amount_LL"
-                                        value={mintReducer.amount}
-                                        min="1"
-                                        readonly
-                                    />
-                                    <button
-                                        id="increase_button"
-                                        class="stepper-btns"
-                                        onClick={onIncreaseClick}
-                                        disabled={
-                                            mintReducer.amount == mintReducer[`${TYPE_OF_MINT}Data`].mints_left || 
-                                            mintReducer[`${TYPE_OF_MINT}Data`].mints_left == 0
-                                        }
-                                    >
-                                        <i class="bx bx-plus"></i>
-                                    </button>
-                                </div>
-                                <button id="mint_button_LL" onClick={onMintClick} disabled={mintReducer[`${TYPE_OF_MINT}Data`].mints_left == 0}>
                                     {
-                                        mintReducer[`${TYPE_OF_MINT}MintTx`].loading ? 'Minting...' : 'Mint now'
-                                    }                                    
-                                </button>
-                                {
-                                    TYPE_OF_MINT != types.PUBLIC &&  mintReducer[`${TYPE_OF_MINT}Data`].mints_left == 0 ?
-                                    <small class="mint-info" style={{color: 'white'}}>Max mint amount reached</small>
-                                    :
-                                    null
-                                }
-                                
+                                        TYPE_OF_MINT != types.PUBLIC &&  mintReducer[`${TYPE_OF_MINT}Data`].data.mints_left == 0 ?
+                                        <small class="mint-info" style={{color: 'white'}}>Max mint amount reached</small>
+                                        :
+                                        null
+                                    }
+                                    
 
-                            </div>
-                        </ListedkWrapper>
+                                </div>
+                            </ListedkWrapper>
+                        </FetchingDataWrapper>
                 </NetworkWrapper>
             </ConnectedWrapper>
-
-            {/* <h3 id="mainnet_title_LL" style="color: white; display: none"> </br></br>Please Switch to eth mainnet</h3>
-            <h6 id="not_listed_title_LL" style="color: rgb(255, 210, 11); display: none"> </br></br>sorry you are not part of the gold/white list</h6>
-            <h6 id="max_mint_title_LL" style="color: rgb(255, 210, 11); display: none"> </br></br>sorry you reached max mint amount for this mint</h6> */}
         </div>
     );
 };

@@ -2,6 +2,7 @@ import {
     TX_LOADING,
     TX_FAILED,
     TX_SUCCESS,
+    SET_LOADING_MINT_DATA,
     SET_MINT_DATA,
     SET_AMOUNT,
 } from '../constants.js';
@@ -25,16 +26,19 @@ const generic_mint_data = {
 
 const defaultState = {
     goldMintTx: { ...generic_tx },
-    goldData: { ...generic_mint_data },
+    goldData: { loading: true, data:{...generic_mint_data} },
     whiteMintTx: { ...generic_tx },
-    whiteData: { ...generic_mint_data },
+    whiteData: { loading: true, data:{...generic_mint_data} },
     publicMintTx: { ...generic_tx },
-    publicData: { 
-        is_open: false,
-        total_mints: 0,
-        mints_limit: 0,
-        mints_left: 0,
-        mint_price: 0
+    publicData: {
+        loading: true,
+        data : { 
+            is_open: false,
+            total_mints: 0,
+            mints_limit: 0,
+            mints_left: 0,
+            mint_price: 0
+        }
      },
     amount: 1,
 };
@@ -67,11 +71,20 @@ const reducer = (state = defaultState, action) => {
                 },
             };
 
+        case SET_LOADING_MINT_DATA:
+            return {
+                ...state,
+                [action.typeOfMint]: {
+                    loading: true,
+                },
+            };        
+        
         case SET_MINT_DATA:
             return {
                 ...state,
                 [action.typeOfMint]: {
-                    ...action.mintData,
+                    loading: false,
+                    data: {...action.mintData},                    
                 },
             };
 
