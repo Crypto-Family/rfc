@@ -25,6 +25,12 @@ function rfc_controller() {
         isMintingOpen: async () => {
             return await rfc_contract_read.methods.minting().call();
         },
+        minting: async () => {
+            return await rfc_contract.methods.minting().call();
+        },
+        totalSupply: async () => {
+            return await rfc_contract_read.methods.totalSupply().call();
+        },
 
         /* *~~*~~*~~*~~*~~* TX *~~*~~*~~*~~*~~*  */
 

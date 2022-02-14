@@ -21,16 +21,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
     <script src="index.js"></script>
 
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.2.6/react-redux.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux-thunk/2.4.1/redux-thunk.min.js"
-     integrity="sha512-doV1QcZI2hB7OuETAuE3ii63YPeDeaWLF6sPMUN9EblvW8TIeDoAlUPFtoRy2folzV2xkAAy4BdqWBbF/FMBsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-doV1QcZI2hB7OuETAuE3ii63YPeDeaWLF6sPMUN9EblvW8TIeDoAlUPFtoRy2folzV2xkAAy4BdqWBbF/FMBsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/5.0.0-alpha.0/redux.min.js"
-      integrity="sha512-6WJ7yVV5HDZwZ0RT5CM3FCTgTt5qC5BlfQ9bG43y0BowT5a3GXQqDYaoZgCk+i9vuB1Yj6KdBPQAU8Ra7tV32w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+        integrity="sha512-6WJ7yVV5HDZwZ0RT5CM3FCTgTt5qC5BlfQ9bG43y0BowT5a3GXQqDYaoZgCk+i9vuB1Yj6KdBPQAU8Ra7tV32w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.0/web3.min.js" 
-    integrity="sha512-C63V0mFzwl8KV2fRz0QJNKX0d9877urOLSUq5WUq8nUOhDl69hKdGr9mAvl57k47GNjqEMAtiufsvDnk7xs8+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-C63V0mFzwl8KV2fRz0QJNKX0d9877urOLSUq5WUq8nUOhDl69hKdGr9mAvl57k47GNjqEMAtiufsvDnk7xs8+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src='https://cdn.jsdelivr.net/npm/bignumber.js@9.0.2/bignumber.min.js'></script>
     
-    <script src="mint.js" type="module"></script>
-    <script src="main.js" type="module"></script>    
+   
+   
+    <script src="./components/connect-button.js" type="module"></script>
+    
 
     <script src="./redux/constants.js" type="module"></script>
     <script src="./redux/actions/mintActions.js" type="module"></script>
@@ -39,11 +45,14 @@
     <script src="./redux/reducers/mintReducer.js" type="module"></script>
     <script src="./redux/reducers/walletReducer.js" type="module"></script>
     <script src="./redux/reducers/web3Reducer.js" type="module"></script>
-    <script src="./redux/store.js" type="module"></script>    
+    <script src="./redux/store.js" type="module"></script> 
+    
     <script src="web3.js" type="module"></script>
-
-    <script src="./components/mint.section.js" type="module"></script>
-    <script src="./components/connect-button.js" type="module"></script>
+    
+    <!-- <script src="./components/mint.section.js" type="module"></script>
+         --> 
+        
+    <script  type="text/babel" data-type="module" src="./main.js"></script>
 
     
     <title>RFC</title>
@@ -116,32 +125,8 @@
     <section id="home">
         <div class="container">
             <div class="wrapper">
-                <div class="home-title">
-                    <p>The Royal Falcon Club NFT is a set of 5050 Randomly generated art pieces. Each NFT will have unique traits that will decide the rarity levels. 
-                        Some of them will unlock access to special prizes. RFC holders will later be able to trade/sell/buy unique traits from each other. 
-                        One million dollars will be given back to the holders via Raffles, Community funds, and charity donations which will be all unlocked throughout
-                         the minting process. 
-                        But hey! it's not only about money! it's about building and rising together so the longer you hold, the more gain in value you will get: holders only crypto/NFT events, learn how to build projects in the NFT space, private alpha chat groups, and many more benefits.. so mint your Royal falcon and join us in building and becoming the strongest NFT club in the region.</p>
-                    <a href="roadmap.html" class="cta-btn"> <span>The roadmap...probably nothing!</span> 😉
-                        <span><i class='bx bx-arrow-back'></i></span></a> 
-                    <div id="mint_section_LL" class="mint-stepper" style="display:none">
-                        <div class="stepper-wrapper">
-                            <button id="decrease_button_LL" class="stepper-btns">
-                                <i class='bx bx-minus'></i>
-                            </button>
-                            <input type="number" name="" id="mint_amount_LL" value="1" min="1" readonly>
-                            <button id="increase_button_LL" class="stepper-btns">
-                                <i class='bx bx-plus'></i>
-                            </button>
-                        </div>
-                        <button id="mint_button_LL" disabled>
-                            mint now
-                        </button>
-                    </div>
+                <div id="react-root" class="home-title">
                     
-                    <h3 id="mainnet_title_LL" style="color: white; display: none"> </br></br>Please Switch to eth mainnet</h3>
-                    <h6 id="not_listed_title_LL" style="color: rgb(255, 210, 11); display: none"> </br></br>sorry you are not part of the gold/white list</h6>
-                    <h6 id="max_mint_title_LL" style="color: rgb(255, 210, 11); display: none"> </br></br>sorry you reached max mint amount for this mint</h6>
 
                 </div>
                 <div class="image-slider-container">

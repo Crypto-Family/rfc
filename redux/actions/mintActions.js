@@ -8,6 +8,10 @@ import {
 
 import rfc_controller from '../../abis/rfc.controller.js';
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
 /* *~~*~~*~~*~~*~~*~~* TX PLAIN ACTIONS *~~*~~*~~*~~*~~*~~* */
 const tx_loading = (txName) => ({ type: TX_LOADING, txName });
 const tx_failed = (txName, errorData) => ({
@@ -63,51 +67,64 @@ export const mint_tx = (txArguments) => {
 
 export const fetch_mint_data = (typeOfMint) => {
     return async (dispatch, getState) => {
+        if(typeOfMint == 'public'){
+            dispatch(fetch_public_mint_data(typeOfMint));
+        }
+        else{ 
+            dispatch(fetch_wl_mint_data(typeOfMint));
+        }
+    };
+}
+
+
+export const fetch_wl_mint_data = (typeOfMint) => {
+    return async (dispatch, getState) => {
         const { walletReducer } = getState();
 
-        const rfc = new rfc_controller();
+        const rfc = new rfc_controller();        
 
-        //prettier-ignore
+        const is_open = (await rfc.minting())[`${typeOfMint}Mint`];
         const mint_price = (await rfc.prices())[`${typeOfMint}Price`];
-
-        if (typeOfMint === 'public') {
-            const _mintData = {
-                userIsListed: null,
-                total_mints: await rfc.balanceOf(walletReducer.address),
-                userMints: null,
-                mint_price,
-            };
-            dispatch(set_mint_data(typeOfMint + 'Data', _mintData));
-            return;
-        }
-
-        //prettier-ignore
         const mint_limit = (await rfc.mintLimit())[`${typeOfMint}MintLimitPerUser`];
+        const user_mints = (await rfc.userMints(walletReducer.address))[`user${capitalizeFirstLetter(typeOfMint)}Mints`];        
 
-        const mintData = {
-            //prettier-ignore
+        const mintData = {            
+            is_open,
+            mint_price,
             user_is_listed: (await rfc.listed(walletReducer.address))[`${typeOfMint}Listed`],
             total_mints: await rfc.balanceOf(walletReducer.address),
-            mints_left:
-                mint_limit -
-                (await rfc.userMints(walletReducer.address))[
-                    `user${
-                        typeOfMint == 'gold'
-                            ? 'Gold'
-                            : typeOfMint === 'white'
-                            ? 'White'
-                            : ''
-                    }Mints`
-                ],
-            mint_price,
+            mints_left: mint_limit - user_mints,
+            
         };
 
         dispatch(set_mint_data(typeOfMint + 'Data', mintData));
     };
 };
 
+const fetch_public_mint_data = () => {
+    return async (dispatch, getState) => {
+        const { walletReducer } = getState();
+
+        const rfc = new rfc_controller();        
+
+        const is_open = (await rfc.minting())['publicMint'];
+        const mint_price = (await rfc.prices())['publicMint'];
+        const total_supply = await rfc.totalSupply();
+        const mint_limit = 5050;
+        const mints_left = mint_limit - total_supply;
+
+        const mintData = {            
+            is_open,
+            mint_price,            
+            mints_left
+        };
+
+        dispatch(set_mint_data('publicData', mintData));
+    };
+};
+
 export const increase_amount = () => {
-    return (dispatch, getState) => {
+    return (dispatch, getState) => {        
         const { amount } = getState().mintReducer;
         dispatch(set_amount(amount + 1));
     };

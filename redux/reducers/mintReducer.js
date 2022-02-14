@@ -14,11 +14,13 @@ const generic_tx = {
 };
 
 const generic_mint_data = {
+    is_open: false,
     user_is_listed: false,
     total_mints: 0,
     mints_left: 0,
     mint_price: 0,
 };
+
 
 const defaultState = {
     goldMintTx: { ...generic_tx },
@@ -26,7 +28,12 @@ const defaultState = {
     whiteMintTx: { ...generic_tx },
     whiteData: { ...generic_mint_data },
     publicMintTx: { ...generic_tx },
-    publicData: { ...generic_mint_data },
+    publicData: { 
+        is_open: false,
+        total_mints: 0,
+        mints_left: 0,
+        mint_price: 0
+     },
     amount: 1,
 };
 
