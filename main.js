@@ -19,7 +19,7 @@ const types = {
     PUBLIC: 'public',
 };
 
-export const TYPE_OF_MINT = types.GOLD;
+export const TYPE_OF_MINT = types.WHITE;
 
 const rpcs = [
     {
